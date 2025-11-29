@@ -19,7 +19,7 @@ return {
 	s({ trig = "set", snippetType = "autosnippet", desc = "Expands into {}'", wordTrig = true }, {
 		t("\\{"),
 		i(1), -- insert node 1
-		t("}"),
+		t("\\}"),
 	}),
 	s({ trig = "under", snippetType = "autosnippet", desc = "Expands into {}'", wordTrig = true }, {
 		t("\\limits_{"),
@@ -54,4 +54,5 @@ return {
 
 	--greek letters
 	s({ trig = "@e", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\varepsilon ") }),
+	s({ trig = "@t", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\tau ") }),
 }
