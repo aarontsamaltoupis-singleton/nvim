@@ -1,0 +1,50 @@
+return {
+	s({ trig = "neq", snippetType = "autosnippet", desc = "neq", wordTrig = false }, { t("\\neq ") }),
+	s({ trig = "dot", snippetType = "autosnippet", desc = "cdot", wordTrig = false }, { t("\\cdot ") }),
+	s({ trig = "fr", snippetType = "autosnippet", desc = "Expands 'ff' into '\frac{}{}'", wordTrig = true }, {
+		t("\\frac{"),
+		i(1), -- insert node 1
+		t("}{"),
+		i(2), -- insert node 2
+		t("}"),
+	}),
+	s({ trig = "forall", snippetType = "autosnippet", desc = "forall", wordTrig = true }, { t("\\forall ") }),
+	s({ trig = "exists", snippetType = "autosnippet", desc = "exists", wordTrig = true }, { t("\\exists ") }),
+	s({ trig = "in", snippetType = "autosnippet", desc = ";in", wordTrig = true }, { t("\\in ") }),
+	s({ trig = "...", snippetType = "autosnippet", desc = "dots", wordTrig = true }, { t("\\dots ") }),
+	s({ trig = "<=", snippetType = "autosnippet", desc = "leq", wordTrig = false }, { t("\\leq ") }),
+	s({ trig = ">=", snippetType = "autosnippet", desc = "geq", wordTrig = false }, { t("\\geq ") }),
+	s({ trig = "times", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\times ") }),
+	s({ trig = "set", snippetType = "autosnippet", desc = "Expands into {}'", wordTrig = true }, {
+		t("\\{"),
+		i(1), -- insert node 1
+		t("\\}"),
+	}),
+	s({ trig = "limits", snippetType = "autosnippet", desc = "write over and under", wordTrig = true }, {
+		t("\\limits_{"),
+		i(1), -- insert node 1
+		t("}^{"),
+		i(2), -- insert node 1
+		t("}"),
+	}),
+	s({ trig = "^", snippetType = "autosnippet", desc = "^{}'", wordTrig = false }, {
+		t("^{"),
+		i(1), -- insert node 1
+		t("}"),
+	}),
+	s({ trig = "_", snippetType = "autosnippet", desc = "_{}'", wordTrig = false }, {
+		t("_{"),
+		i(1), -- insert node 1
+		t("}"),
+	}),
+	s(
+		{ trig = "sum", dscr = "sum" },
+		fmt(
+			[[
+			\sum_{<>}^{<>}
+			]],
+			{ i(1, "n"), i(2, "\\infty") },
+			{ delimiters = "<>" }
+		)
+	),
+}
