@@ -6,6 +6,10 @@ local get_visual = function(args, parent)
 	end
 end
 
+local in_mathzone = function()
+	return vom.fn["vimtex#syntax#in_mathzone"]() == 1
+end
+
 return {
 
 	-- bracket under text
@@ -17,9 +21,17 @@ return {
 			d(1, get_visual),
 		})
 	),
+	--make text italic
 	s(
 		{ trig = "italic", snippetType = "autosnippet", dscr = "makes text italic", wordTrig = false },
 		fmta("\\textit{<>}", {
+			d(1, get_visual),
+		})
+	),
+	--make text normal
+	s(
+		{ trig = "", snippetType = "autosnippet", dscr = "makes text normal", wordTrig = false },
+		fmta("\\nm{<>}", {
 			d(1, get_visual),
 		})
 	),

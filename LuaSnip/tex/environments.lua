@@ -56,7 +56,7 @@ return {
 		)
 	),
 	s(
-		{ trig = "sec*", dscr = "new section custom name" },
+		{ trig = "sec", dscr = "new section custom name" },
 		fmt(
 			[[
 			\section*{<>}
@@ -66,7 +66,7 @@ return {
 		)
 	),
 	s(
-		{ trig = "subsec*", dscr = "new subsection custom name" },
+		{ trig = "subsec", dscr = "new subsection custom name" },
 		fmt(
 			[[
 			\subsection*{<>}

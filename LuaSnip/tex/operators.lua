@@ -10,11 +10,23 @@ return {
 	}),
 	s({ trig = "forall", snippetType = "autosnippet", desc = "forall", wordTrig = true }, { t("\\forall ") }),
 	s({ trig = "exists", snippetType = "autosnippet", desc = "exists", wordTrig = true }, { t("\\exists ") }),
-	s({ trig = "in", snippetType = "autosnippet", desc = ";in", wordTrig = true }, { t("\\in ") }),
+	s({ trig = ";in", snippetType = "autosnippet", desc = ";in", wordTrig = false }, { t("\\in ") }),
 	s({ trig = "...", snippetType = "autosnippet", desc = "dots", wordTrig = true }, { t("\\dots ") }),
 	s({ trig = "<=", snippetType = "autosnippet", desc = "leq", wordTrig = false }, { t("\\leq ") }),
 	s({ trig = ">=", snippetType = "autosnippet", desc = "geq", wordTrig = false }, { t("\\geq ") }),
 	s({ trig = "times", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\times ") }),
+	s(
+		{ trig = "sk", snippetType = "autosnippet", dscr = "bigskip", wortTrig = true },
+		fmt(
+			[[
+			\bigskip
+
+			<>
+			]],
+			{ i(0) },
+			{ delimiters = "<>" }
+		)
+	),
 	s({ trig = "set", snippetType = "autosnippet", desc = "Expands into {}'", wordTrig = true }, {
 		t("\\{"),
 		i(1), -- insert node 1

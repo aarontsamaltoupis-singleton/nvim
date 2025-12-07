@@ -20,8 +20,7 @@
 =====================================================================
 
 What is Kickstart?
-
-  Kickstart.nvim is *not* a distribution.
+Kickstart.nvim is *not* a distribution.
 
   Kickstart.nvim is a starting point for your own configuration.
     The goal is that you can read every line of code, top-to-bottom, understand
@@ -218,6 +217,36 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+--custom keymaps
+vim.keymap.set("n", "<leader>b", ":bd <CR>", { desc = "close buffer" })
+vim.keymap.set("n", "<tab>", ":bn <CR>", { desc = "next buffer" })
+vim.keymap.set("n", "<S-tab>", ":bp <CR>", { desc = "next buffer" })
+vim.keymap.set("n", "<leader>mp", ":MarkdownPreview <CR>", { desc = "close buffer" })
+vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
+vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
+vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
+vim.keymap.set(
+	"n",
+	"<leader>p",
+	":w! | sp |term python3 %<CR>",
+	{ desc = "[] execute python code" },
+	{ noremap = true, silent = true }
+)
+--vim.keymap.set("n", "<leader>e", ":vsplit|Explore <CR>", { desc = "open file expolorer" })
+--vim.keymap.set("n", "<leader>e", ":Neotree <CR>", { desc = "open file expolorer" })
+
+--custom autocommands
+--open binary files
+vim.api.nvim_create_autocmd("BufReadCmd", {
+  descr= "Open pdf in zathura from neovim"
+	pattern = "*.pdf",
+	callback = function()
+		local filename = vim.fn.shellescape(vim.api.nvim_buf_get_name(0))
+		vim.cmd("silent !zathura " .. filename .. "&")
+		vim.cmd("let tobedelted = bufnr('%')| b# |exe \"bd! \" . tobedeleted")
+	end
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -253,6 +282,12 @@ require("lazy").setup({
 		init = function()
 			-- VimTeX configuration goes here, e.g.
 			vim.g.vimtex_view_method = "zathura"
+			vim.g.vimtex_quickfix_open_on_warning = 0
+			vim.g.vimtex_quickfix_ignore_filters = {
+				"Underfull \\hbox",
+				"Overfull \\hbox",
+				"LaTex hooks warning",
+			}
 		end,
 	},
 	{
@@ -327,6 +362,12 @@ require("lazy").setup({
 			-- see below for full list of options 👇
 		},
 	},
+
+
+
+
+
+
 
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
@@ -536,20 +577,6 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-			--custom keymaps
-			vim.keymap.set("n", "<leader>b", ":bd <CR>", { desc = "close buffer" })
-			vim.keymap.set("n", "<leader>mp", ":MarkdownPreview <CR>", { desc = "close buffer" })
-			vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
-			vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
-			vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
-			vim.keymap.set(
-				"n",
-				"<leader>p",
-				":w! | sp |term python3 %<CR>",
-				{ desc = "[] execute python code" },
-				{ noremap = true, silent = true }
-			)
-			vim.keymap.set("n", "<leader>e", ":vsplit|Explore <CR>", { desc = "open file expolorer" })
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>/", function()
@@ -985,6 +1012,8 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+				--"latex",
+				--"python",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
@@ -1015,17 +1044,17 @@ require("lazy").setup({
 	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
 	--
 	-- require 'kickstart.plugins.debug',
-	-- require 'kickstart.plugins.indent_line',
-	-- require 'kickstart.plugins.lint',
-	-- require 'kickstart.plugins.autopairs',
-	-- require 'kickstart.plugins.neo-tree',
+	require("kickstart.plugins.indent_line"),
+	require("kickstart.plugins.lint"),
+	require("kickstart.plugins.autopairs"),
+	require("kickstart.plugins.neo-tree"),
 	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
 	--
 	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-	-- { import = 'custom.plugins' },
+	{ import = "custom.plugins" },
 	--
 	-- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
 	-- Or use telescope!
@@ -1036,19 +1065,19 @@ require("lazy").setup({
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
 		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
 		icons = vim.g.have_nerd_font and {} or {
-			cmd = "⌘",
-			config = "🛠",
-			event = "📅",
-			ft = "📂",
-			init = "⚙",
-			keys = "🗝",
-			plugin = "🔌",
-			runtime = "💻",
-			require = "🌙",
-			source = "📄",
-			start = "🚀",
-			task = "📌",
-			lazy = "💤 ",
+			cmd = "+",
+			config = "+",
+			event = "+",
+			ft = "+",
+			init = "+",
+			keys = "+",
+			plugin = "+",
+			runtime = "+",
+			require = "+",
+			source = "+",
+			start = "+",
+			task = "+",
+			lazy = "+ ",
 		},
 	},
 })
