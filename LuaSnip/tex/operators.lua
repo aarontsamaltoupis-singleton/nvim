@@ -32,13 +32,38 @@ return {
 		i(1), -- insert node 1
 		t("\\}"),
 	}),
-	s({ trig = "limits", snippetType = "autosnippet", desc = "write over and under", wordTrig = true }, {
+	s({ trig = "un", snippetType = "snippet", desc = "write over and under", wordTrig = true }, {
 		t("\\limits_{"),
 		i(1), -- insert node 1
-		t("}^{"),
-		i(2), -- insert node 1
 		t("}"),
 	}),
+
+	s({ trig = "under", snippetType = "snippet", desc = "write over and under", wordTrig = true }, {
+		t("\\limits_{"),
+		i(1), -- insert node 1
+		t("}"),
+	}),
+	s({ trig = "ov", snippetType = "snippet", desc = "write over and under", wordTrig = true }, {
+		t("\\limits^{"),
+		i(1), -- insert node 1
+		t("}"),
+	}),
+	s({ trig = "over", snippetType = "snippet", desc = "write over and under", wordTrig = true }, {
+		t("\\limits^{"),
+		i(1), -- insert node 1
+		t("}"),
+	}),
+	s(
+		{ trig = "limit", dscr = "sum" },
+		fmt(
+			[[
+			\lim \limits_{<>}
+			]],
+			{ i(1, "n \\to\\infty") },
+			{ delimiters = "<>" }
+		)
+	),
+
 	s({ trig = "^", snippetType = "autosnippet", desc = "^{}'", wordTrig = false }, {
 		t("^{"),
 		i(1), -- insert node 1

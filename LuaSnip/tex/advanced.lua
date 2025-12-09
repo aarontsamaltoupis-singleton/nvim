@@ -6,8 +6,8 @@ local get_visual = function(args, parent)
 	end
 end
 
-local in_mathzone = function()
-	return vom.fn["vimtex#syntax#in_mathzone"]() == 1
+local in_mathzone = function(name)
+	return vim.fn["vimtex#syntax#in_mathzone"](name) == 1
 end
 
 return {
@@ -28,11 +28,18 @@ return {
 			d(1, get_visual),
 		})
 	),
-	--make text normal
-	s(
-		{ trig = "", snippetType = "autosnippet", dscr = "makes text normal", wordTrig = false },
-		fmta("\\nm{<>}", {
-			d(1, get_visual),
-		})
-	),
+	--	--make text normal
+	--	s(
+	--		{
+	--			trig = "nm",
+	--			condition = in_mathzone,
+	--			snippetType = "autosnippet",
+	--			dscr = "makes text normal",
+	--			wordTrig = false,
+	--		},
+	--		fmta("\\textnormal{<>}", {
+	--			d(1, get_visual),
+	--		})
+	--	),
+	--trigger normal text (math mode only)
 }

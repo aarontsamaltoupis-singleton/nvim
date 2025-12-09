@@ -217,35 +217,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
---custom keymaps
-vim.keymap.set("n", "<leader>b", ":bd <CR>", { desc = "close buffer" })
-vim.keymap.set("n", "<tab>", ":bn <CR>", { desc = "next buffer" })
-vim.keymap.set("n", "<S-tab>", ":bp <CR>", { desc = "next buffer" })
-vim.keymap.set("n", "<leader>mp", ":MarkdownPreview <CR>", { desc = "close buffer" })
-vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
-vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
-vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
-vim.keymap.set(
-	"n",
-	"<leader>p",
-	":w! | sp |term python3 %<CR>",
-	{ desc = "[] execute python code" },
-	{ noremap = true, silent = true }
-)
 --vim.keymap.set("n", "<leader>e", ":vsplit|Explore <CR>", { desc = "open file expolorer" })
 --vim.keymap.set("n", "<leader>e", ":Neotree <CR>", { desc = "open file expolorer" })
-
---custom autocommands
---open binary files
-vim.api.nvim_create_autocmd("BufReadCmd", {
-  descr= "Open pdf in zathura from neovim"
-	pattern = "*.pdf",
-	callback = function()
-		local filename = vim.fn.shellescape(vim.api.nvim_buf_get_name(0))
-		vim.cmd("silent !zathura " .. filename .. "&")
-		vim.cmd("let tobedelted = bufnr('%')| b# |exe \"bd! \" . tobedeleted")
-	end
-})
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -277,19 +250,21 @@ require("lazy").setup({
 
 	{
 		"lervag/vimtex",
+		ft = tex,
 		lazy = false, -- we don't want to lazy load VimTeX
 		-- tag = "v2.15", -- uncomment to pin to a specific release
 		init = function()
 			-- VimTeX configuration goes here, e.g.
 			vim.g.vimtex_view_method = "zathura"
+
 			vim.g.vimtex_quickfix_open_on_warning = 0
-			vim.g.vimtex_quickfix_ignore_filters = {
-				"Underfull \\hbox",
-				"Overfull \\hbox",
-				"LaTex hooks warning",
-			}
+			vim.g.vimtex_quickfix_open_on_error = 0
+			vim.g.vimtex_quickfix_mode = 0
+			vim.g.vimtex_quickfix_ignore_filters = { ".*" }
+			vim.g.vimtex_compiler_latexmk = { build_dir = "build" }
 		end,
 	},
+
 	{
 		"L3MON4D3/LuaSnip",
 		--   lazy = false,
@@ -325,7 +300,24 @@ require("lazy").setup({
 		end,
 	},
 
-	"vimwiki/vimwiki",
+	--	{
+	--		"vimwiki/vimwiki",
+	--		init = function()
+	--			vim.g.vimwiki_list = {
+	--				{
+	--					path = "~/emacs/",
+	--					syntax = "default",
+	--					ext = ".md",
+	--					links_space_char = " ",
+	--				},
+	--			}
+	--			vim.g.vimwiki_camel_case = 0
+	--			vim.g.vimwiki_markdown_link_ext = 1
+	--			vim.g.vimwikk_auto_create = 1
+	--			vim.g.vimwiki_links_header_level = 0
+	--
+	--		end,
+	--	},
 	"nvim-lua/plenary.nvim",
 
 	{
@@ -333,17 +325,12 @@ require("lazy").setup({
 		version = "*", -- recommended, use latest release instead of latest commit
 		lazy = true,
 		ft = "markdown",
-		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-		-- event = {
-		--   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-		--   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-		--   -- refer to `:h file-pattern` for more examples
-		--   "BufReadPre path/to/my-vault/*.md",
-		--   "BufNewFile path/to/my-vault/*.md",
+		conceallevel = 1,
 		-- },
 		dependencies = {
 			-- Required.
 			"nvim-lua/plenary.nvim",
+			--"nvim-telescope/telescope.nvim",
 
 			-- see below for full list of optional dependencies 👇
 		},
@@ -351,23 +338,58 @@ require("lazy").setup({
 			workspaces = {
 				{
 					name = "math",
-					path = "~/Desktop/emacs/Matheobsidian",
+					path = "~/emacs/",
 				},
 				--{
-				--	name = "work",
-				--	path = "~/vaults/work",
-				--},
+			},
+			--follow_url_func = function(url)
+			--	vim.fn.jobstart({ "open", url })
+			--end,
+
+			wiki_link_fuc = "absolute",
+			use_path_with_wikilinks = true,
+			prefer_obsidian_link_path = true,
+			follow_url_func = vim.fn.jobstart,
+			preferred_link_style = "wiki",
+
+			completion = {
+				nvim_cmp = true,
+				path = "~/emacs",
 			},
 
-			-- see below for full list of options 👇
+			ui = {
+				enable = true,
+			},
 		},
 	},
 
+	{
+		"hrsh7th/nvim-cmp",
+		opts = function(_, opts)
+			local cmp = require("cmp")
 
+			-- Merge your keymaps into LazyVim defaults (very important)
+			opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
+				["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+				["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 
+				-- Confirm with Ctrl-k
+				["<C-k>"] = cmp.mapping.confirm({
+					select = true,
+				}),
 
+				-- Make <CR> NOT confirm, avoid interference
+				["<CR>"] = cmp.mapping(function(fallback)
+					fallback()
+				end),
+			})
 
-
+			-- Ensure obsidian completion source stays active
+			opts.sources = cmp.config.sources(vim.list_extend(opts.sources or {}, {
+				{ name = "obsidian" },
+			}))
+		end,
+	},
 
 	-- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
 	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
@@ -821,9 +843,9 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
-				-- clangd = {},
+				clangd = {},
 				-- gopls = {},
-				-- pyright = {},
+				pyright = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
@@ -994,45 +1016,45 @@ require("lazy").setup({
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
-	{ -- Highlight, edit, and navigate code
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"lua",
-				"luadoc",
-				"markdown",
-				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
-				--"latex",
-				--"python",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
-		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	},
+	--{ -- Highlight, edit, and navigate code
+	--	"nvim-treesitter/nvim-treesitter",
+	--	build = ":TSUpdate",
+	--	main = "nvim-treesitter.configs", -- Sets main module to use for opts
+	--	-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+	--	opts = {
+	--		ensure_installed = {
+	--			"bash",
+	--			"c",
+	--			"diff",
+	--			"html",
+	--			"lua",
+	--			"luadoc",
+	--			"markdown",
+	--			"markdown_inline",
+	--			"query",
+	--			"vim",
+	--			"vimdoc",
+	--			--"latex",
+	--			--"python",
+	--		},
+	--		-- Autoinstall languages that are not installed
+	--		auto_install = true,
+	--		highlight = {
+	--			enable = true,
+	--			-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+	--			--  If you are experiencing weird indenting issues, add the language to
+	--			--  the list of additional_vim_regex_highlighting and disabled languages for indent.
+	--			additional_vim_regex_highlighting = { "ruby" },
+	--		},
+	--		indent = { enable = true, disable = { "ruby" } },
+	--	},
+	--	-- There are additional nvim-treesitter modules that you can use to interact
+	--	-- with nvim-treesitter. You should go explore a few and see what interests you:
+	--	--
+	--	--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+	--	--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+	--	--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+	--},
 
 	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -1082,5 +1104,40 @@ require("lazy").setup({
 	},
 })
 
+--custom keymaps
+vim.keymap.set("n", "<leader>b", ":bd <CR>", { desc = "close buffer" })
+vim.keymap.set("n", "<C-tab>", ":bn <CR>", { desc = "next buffer" })
+vim.keymap.set("n", "<S-tab>", ":bp <CR>", { desc = "next buffer" })
+vim.keymap.set("n", "<leader>mp", ":MarkdownPreview <CR>", { desc = "close buffer" })
+vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
+vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
+--vim.keymap.set("n", "<leader>c", ":VimtexCompile <CR>", { desc = "vimtex compile" })
+--vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
+vim.keymap.set(
+	"n",
+	"<leader>p",
+	":w! | sp |term python3 %<CR>",
+	{ desc = "[] execute python code" },
+	{ noremap = true, silent = true }
+)
+
+
+
+--open pdfs in zathura
+vim.api.nvim_create_autocmd({ "BufReadCmd" }, {
+	pattern = "*.pdf",
+	callback = function(opts)
+		local file = opts.file
+		vim.fn.jobstart({ "zathura", file }, { detach = true })
+		vim.cmd("bd!") -- close the buffer without error
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "tex", "latex" },
+	callback = function()
+		vim.diagnostic.disable(0)
+	end,
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
