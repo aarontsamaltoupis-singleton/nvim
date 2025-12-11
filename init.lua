@@ -256,12 +256,13 @@ require("lazy").setup({
 		init = function()
 			-- VimTeX configuration goes here, e.g.
 			vim.g.vimtex_view_method = "zathura"
-
 			vim.g.vimtex_quickfix_open_on_warning = 0
-			vim.g.vimtex_quickfix_open_on_error = 0
-			vim.g.vimtex_quickfix_mode = 0
-			vim.g.vimtex_quickfix_ignore_filters = { ".*" }
-			vim.g.vimtex_compiler_latexmk = { build_dir = "build" }
+			--	vim.g.vimtex_quickfix_ignore_filters = { "Underfull \\hbox", "Overfull \\hbox" }
+			vim.g.vimtex_quickfix_ignore_filters = {
+				"Underfull \\\\hbox",
+				"Overfull \\\\hbox",
+			}
+			vim.g.vimtex_callback_enabled = 0
 		end,
 	},
 
@@ -358,7 +359,7 @@ require("lazy").setup({
 			},
 
 			ui = {
-				enable = true,
+				enable = false,
 			},
 		},
 	},
@@ -649,8 +650,8 @@ require("lazy").setup({
 			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
-			-- Useful status updates for LSP.
-			{ "j-hui/fidget.nvim", opts = {} },
+			-- Useful status updates for LSP. --manually disabled
+			--{ "j-hui/fidget.nvim", opts = {} },
 
 			-- Allows extra capabilities provided by blink.cmp
 		},
@@ -1068,7 +1069,7 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.debug',
 	require("kickstart.plugins.indent_line"),
 	require("kickstart.plugins.lint"),
-	require("kickstart.plugins.autopairs"),
+	--require("kickstart.plugins.autopairs"),
 	require("kickstart.plugins.neo-tree"),
 	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
@@ -1111,8 +1112,10 @@ vim.keymap.set("n", "<S-tab>", ":bp <CR>", { desc = "next buffer" })
 vim.keymap.set("n", "<leader>mp", ":MarkdownPreview <CR>", { desc = "close buffer" })
 vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
 vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
---vim.keymap.set("n", "<leader>c", ":VimtexCompile <CR>", { desc = "vimtex compile" })
+vim.keymap.set("n", "<leader>c", ":<cmd>term ~/emacs/config/auxfiles.sh <CR>", { desc = "clean aux files " })
 --vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
+--
+--
 vim.keymap.set(
 	"n",
 	"<leader>p",
@@ -1120,8 +1123,6 @@ vim.keymap.set(
 	{ desc = "[] execute python code" },
 	{ noremap = true, silent = true }
 )
-
-
 
 --open pdfs in zathura
 vim.api.nvim_create_autocmd({ "BufReadCmd" }, {
@@ -1133,11 +1134,8 @@ vim.api.nvim_create_autocmd({ "BufReadCmd" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "tex", "latex" },
-	callback = function()
-		vim.diagnostic.disable(0)
-	end,
-})
+--disable vibrant error messages
+vim.diagnostic.enable(false)
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
