@@ -33,7 +33,7 @@ return {
 	--		{
 	--			trig = "nm",
 	--			condition = in_mathzone,
-	--			snippetType = "autosnippet",
+	--			snippetType = "snippet",
 	--			dscr = "makes text normal",
 	--			wordTrig = false,
 	--		},
@@ -41,5 +41,4 @@ return {
 	--			d(1, get_visual),
 	--		})
 	--	),
-	--trigger normal text (math mode only)
 }

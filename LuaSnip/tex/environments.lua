@@ -44,7 +44,7 @@ return {
 		)
 	),
 	s(
-		{ trig = "begin", dscr = "Begin new environment" },
+		{ trig = "beg", dscr = "Begin new environment" },
 		fmt(
 			[[
 			\begin{<>}

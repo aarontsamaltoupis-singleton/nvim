@@ -371,8 +371,8 @@ require("lazy").setup({
 
 			-- Merge your keymaps into LazyVim defaults (very important)
 			opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
-				["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-				["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+				["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior }),
+				["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior }),
 
 				-- Confirm with Ctrl-k
 				["<C-k>"] = cmp.mapping.confirm({
@@ -380,9 +380,9 @@ require("lazy").setup({
 				}),
 
 				-- Make <CR> NOT confirm, avoid interference
-				["<CR>"] = cmp.mapping(function(fallback)
-					fallback()
-				end),
+				--["<CR>"] = cmp.mapping(function(fallback)
+				--	fallback()
+				--end),
 			})
 
 			-- Ensure obsidian completion source stays active
@@ -592,7 +592,8 @@ require("lazy").setup({
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+			--originally <leader> s f ([S]earch [F]iles)
+			vim.keymap.set("n", "<leader>o", builtin.find_files, { desc = "Search Files" })
 			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
 			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
@@ -1107,12 +1108,13 @@ require("lazy").setup({
 
 --custom keymaps
 vim.keymap.set("n", "<leader>b", ":bd <CR>", { desc = "close buffer" })
-vim.keymap.set("n", "<C-tab>", ":bn <CR>", { desc = "next buffer" })
+vim.keymap.set("n", "<tab>", ":bn <CR>", { desc = "next buffer" })
 vim.keymap.set("n", "<S-tab>", ":bp <CR>", { desc = "next buffer" })
 vim.keymap.set("n", "<leader>mp", ":MarkdownPreview <CR>", { desc = "close buffer" })
 vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
 vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
-vim.keymap.set("n", "<leader>c", ":<cmd>term ~/emacs/config/auxfiles.sh <CR>", { desc = "clean aux files " })
+vim.keymap.set("n", "<leader>c", ":<cmd>term ~/.config/nvim/scripts/auxfiles.sh <CR>", { desc = "clean aux files " })
+vim.keymap.set("n", "<leader>oo", ":ObsidianOpen <CR>", { desc = "open obsidian" }, { pattern = "*.md" })
 --vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
 --
 --
@@ -1130,6 +1132,15 @@ vim.api.nvim_create_autocmd({ "BufReadCmd" }, {
 	callback = function(opts)
 		local file = opts.file
 		vim.fn.jobstart({ "zathura", file }, { detach = true })
+		vim.cmd("bd!") -- close the buffer without error
+	end,
+})
+--open png in zathura
+vim.api.nvim_create_autocmd({ "BufReadCmd" }, {
+	pattern = "*.png",
+	callback = function(opts)
+		local file = opts.file
+		vim.fn.jobstart({ "viewnior", file }, { detach = true })
 		vim.cmd("bd!") -- close the buffer without error
 	end,
 })

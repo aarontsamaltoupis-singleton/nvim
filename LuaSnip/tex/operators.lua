@@ -15,11 +15,24 @@ return {
 	s({ trig = "<=", snippetType = "autosnippet", desc = "leq", wordTrig = false }, { t("\\leq ") }),
 	s({ trig = ">=", snippetType = "autosnippet", desc = "geq", wordTrig = false }, { t("\\geq ") }),
 	s({ trig = "times", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\times ") }),
+	s({ trig = "infty", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\infty ") }),
 	s(
 		{ trig = "sk", snippetType = "autosnippet", dscr = "bigskip", wortTrig = true },
 		fmt(
 			[[
 			\bigskip
+
+			<>
+			]],
+			{ i(0) },
+			{ delimiters = "<>" }
+		)
+	),
+	s(
+		{ trig = "msk", snippetType = "autosnippet", dscr = "medium skip", wortTrig = true },
+		fmt(
+			[[
+			\medskip
 
 			<>
 			]],
@@ -54,7 +67,7 @@ return {
 		t("}"),
 	}),
 	s(
-		{ trig = "limit", dscr = "sum" },
+		{ trig = "lim", dscr = "sum" },
 		fmt(
 			[[
 			\lim \limits_{<>}
@@ -81,6 +94,16 @@ return {
 			\sum_{<>}^{<>}
 			]],
 			{ i(1, "n"), i(2, "\\infty") },
+			{ delimiters = "<>" }
+		)
+	),
+	s(
+		{ trig = "nm", dscr = "normal text" },
+		fmt(
+			[[
+			\textnormal{<>}
+			]],
+			{ i(1) },
 			{ delimiters = "<>" }
 		)
 	),
