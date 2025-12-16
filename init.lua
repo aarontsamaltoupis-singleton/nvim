@@ -320,7 +320,7 @@ require("lazy").setup({
 	--		end,
 	--	},
 	"nvim-lua/plenary.nvim",
-
+	"akinsho/bufferline.nvim",
 	{
 		"epwalsh/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
