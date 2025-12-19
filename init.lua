@@ -1148,6 +1148,8 @@ vim.api.nvim_create_autocmd({ "BufReadCmd" }, {
 	end,
 })
 
+---ERROR FIXING
+
 --disable vibrant error messages
 vim.diagnostic.enable(false)
 
