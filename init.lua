@@ -338,6 +338,7 @@ require("lazy").setup({
 			-- see below for full list of optional dependencies 👇
 		},
 		opts = {
+
 			workspaces = {
 				{
 					name = "math",
@@ -350,6 +351,7 @@ require("lazy").setup({
 			--end,
 
 			wiki_link_fuc = "absolute",
+			disable_frontmatter = true,
 			use_path_with_wikilinks = true,
 			prefer_obsidian_link_path = true,
 			follow_url_func = vim.fn.jobstart,
