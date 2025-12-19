@@ -321,6 +321,8 @@ require("lazy").setup({
 	--	},
 	"nvim-lua/plenary.nvim",
 	"akinsho/bufferline.nvim",
+
+	"hrsh7th/cmp-path",
 	{
 		"epwalsh/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
@@ -388,6 +390,7 @@ require("lazy").setup({
 			-- Ensure obsidian completion source stays active
 			opts.sources = cmp.config.sources(vim.list_extend(opts.sources or {}, {
 				{ name = "obsidian" },
+				{ name = "path" },
 			}))
 		end,
 	},
