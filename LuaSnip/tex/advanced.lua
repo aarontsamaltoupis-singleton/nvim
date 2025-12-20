@@ -28,6 +28,15 @@ return {
 			d(1, get_visual),
 		})
 	),
+	--underbrace
+	s(
+		{ trig = "underbr", snippetType = "autosnippet", dscr = "underbrace", wordTrig = false },
+		fmta("\\underbrace{<>}_{<>}", {
+			d(1, get_visual),
+			i(2),
+		})
+	),
+
 	--	--make text normal
 	--	s(
 	--		{

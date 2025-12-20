@@ -1,5 +1,10 @@
 return {
 	s({ trig = "neq", snippetType = "autosnippet", desc = "neq", wordTrig = false }, { t("\\neq ") }),
+	s({ trig = "tilde", snippetType = "autosnippet", desc = "Expands 'ff' into '\frac{}{}'", wordTrig = true }, {
+		t("\\tilde{"),
+		i(1), -- insert node 1
+		t("}"),
+	}),
 	s({ trig = "dot", snippetType = "autosnippet", desc = "cdot", wordTrig = false }, { t("\\cdot ") }),
 	s({ trig = "fr", snippetType = "snippet", desc = "Expands 'ff' into '\frac{}{}'", wordTrig = true }, {
 		t("\\frac{"),

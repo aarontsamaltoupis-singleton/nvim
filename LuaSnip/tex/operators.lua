@@ -16,6 +16,7 @@ return {
 	s({ trig = ">=", snippetType = "autosnippet", desc = "geq", wordTrig = false }, { t("\\geq ") }),
 	s({ trig = "times", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\times ") }),
 	s({ trig = "infty", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\infty ") }),
+	s({ trig = "tilde", snippetType = "autosnippet", desc = "x", wordTrig = false }, { t("\\tilde ") }),
 	s(
 		{ trig = "sk", snippetType = "autosnippet", dscr = "bigskip", wortTrig = true },
 		fmt(

@@ -7,14 +7,16 @@ return {
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {
+			checkbox = {
+				enabled = false,
+			},
 			heading = {
 				enabled = true,
 				render_modes = false,
 				atx = true,
 				setext = true,
 				sign = true,
-				--icons = { "O  ", "O  ", "O  ", "O  ", "O  ", "O  " },
-				icons = {},
+				icons = { "", "", "", "", "", "" },
 				position = "inline",
 				signs = { " " },
 				width = "full",

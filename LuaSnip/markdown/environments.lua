@@ -18,16 +18,27 @@ return {
 			{ delimiters = "<>" }
 		)
 	),
-	s(
-		{ trig = "cases", dscr = "Begin align environment without numbering" },
-		fmt(
-			[[
-			\begin{align*}<>\end{align*}
-			]],
-			{ i(1) },
-			{ delimiters = "<>" }
-		)
-	),
+	s({ trig = "cases", dscr = "Begin align environment with numbering" }, {
+		t({
+			"\\begin{cases}",
+			"	",
+		}),
+		i(1),
+		t({
+			"",
+			"\\end{cases}",
+		}),
+	}),
+	--s(
+	--	{ trig = "cases", dscr = "Begin align environment without numbering" },
+	--	fmt(
+	--		[[
+	--		\begin{cases}<>\end{cae}
+	--		]],
+	--		{ i(1) },
+	--		{ delimiters = "<>" }
+	--	)
+	--),
 	--align
 	--
 	s(
