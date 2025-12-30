@@ -10,8 +10,12 @@ return {
 			checkbox = {
 				enabled = false,
 			},
+			bullet = {
+				enabled = false,
+			},
+
 			heading = {
-				enabled = true,
+				enabled = false,
 				render_modes = false,
 				atx = true,
 				setext = true,

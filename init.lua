@@ -342,7 +342,7 @@ require("lazy").setup({
 			workspaces = {
 				{
 					name = "math",
-					path = "~/emacs/",
+					path = "~/Folder/",
 				},
 				--{
 			},
@@ -359,7 +359,7 @@ require("lazy").setup({
 
 			completion = {
 				nvim_cmp = true,
-				path = "~/emacs",
+				path = "~/Folder/",
 			},
 
 			ui = {
@@ -974,7 +974,8 @@ require("lazy").setup({
 			-- Load the colorscheme here.
 			-- Like many other themes, this one has different styles, and you could load
 			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("tokyonight-moon")
+			-- --set default colorscheme
+			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
 
@@ -1120,7 +1121,7 @@ vim.keymap.set("n", "<leader>w", ":wa <CR>", { desc = "save all" })
 vim.keymap.set("n", "<leader>q", ":q! <CR>", { desc = "close window" })
 vim.keymap.set("n", "<leader>c", ":<cmd>term ~/.config/nvim/scripts/auxfiles.sh <CR>", { desc = "clean aux files " })
 vim.keymap.set("n", "<leader>oo", ":ObsidianOpen <CR>", { desc = "open obsidian" }, { pattern = "*.md" })
---vim.keymap.set("n", "<leader>vm", ":cd ~/Desktop/emacs/Matheobsidian <CR>", { desc = "open math vault" })
+--vim.keymap.set("n", "<leader>vm", ":cd ~/Folder/ <CR>", { desc = "open math vault" })
 --
 --
 vim.keymap.set(
