@@ -55,6 +55,7 @@ return {
 
 	--greek letters
 	s({ trig = "@e", snippetType = "autosnippet", desc = "epsilon", wordTrig = true }, { t("\\varepsilon ") }),
+	s({ trig = "@d", snippetType = "autosnippet", desc = "delta", wordTrig = true }, { t("\\delta ") }),
 	s({ trig = "@t", snippetType = "autosnippet", desc = "tau", wordTrig = true }, { t("\\tau ") }),
 	s({ trig = "@th", snippetType = "autosnippet", desc = "theta", wordTrig = true }, { t("\\theta ") }),
 }
