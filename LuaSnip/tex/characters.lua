@@ -9,6 +9,8 @@ return {
 
 	--greek letters
 	s({ trig = "@e", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\varepsilon ") }),
+	s({ trig = "@d", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\delta ") }),
+	s({ trig = "pi", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\pi ") }),
 	s({ trig = "@ta", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\tau ") }),
 	s({ trig = "@th", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\theta ") }),
 	s({ trig = "@a", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\alpha ") }),
