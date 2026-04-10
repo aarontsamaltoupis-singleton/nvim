@@ -14,4 +14,6 @@ return {
 	s({ trig = "@a", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\alpha ") }),
 	s({ trig = "@b", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\beta ") }),
 	s({ trig = "@ps", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\psi ") }),
+	s({ trig = "@ph", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\varphi ") }),
+	s({ trig = "@l", snippetType = "autosnippet", desc = "leq", wordTrig = true }, { t("\\lambda ") }),
 }

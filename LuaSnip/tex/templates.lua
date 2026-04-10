@@ -173,7 +173,7 @@ return {
 
 
 				\begin{document}
-				{\Large\bf <>}\\  tags:\  {<>}\\
+				{\Large\bf Blatt <>}\\  Aaron Tsamaltoupis, Matrikel-Nr.: 3762396\\
 				\hrule
 				%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				\bigskip
